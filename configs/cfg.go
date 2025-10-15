@@ -1,6 +1,9 @@
 package configs
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // OutputFormat represents supported output formats
 type OutputFormat string
@@ -187,5 +190,9 @@ func (b *ConfigBuilder) Build() *Config {
 
 // hasExtension checks if a path has the specified file extension
 func hasExtension(path, ext string) bool {
-    return len(path) >= len(ext) && path[len(path)-len(ext):] == ext
+    if len(path) < len(ext) {
+        return false
+    }
+    // Compare case-insensitively
+    return strings.EqualFold(path[len(path)-len(ext):], ext)
 }
